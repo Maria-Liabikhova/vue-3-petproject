@@ -54,7 +54,7 @@ export default defineComponent({
 
 <style scoped>
 .card {
-  border: 3px solid var(--green-color);
+  border: 1px solid var(--green-color);
   padding: 20px;
   width: 200px;
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="main-page">
     <h1 class="main-page__h1">Hello world!</h1>
+    <UiForm :button-name="buttonName" @onCreate="create" />
     <div class="main-page__content">
       <div
         class="main-page__cardwrapper"
@@ -25,22 +26,31 @@
 import { defineComponent } from "vue";
 import { mapActions, mapState } from "vuex";
 import UiCard from "@/components/ui/UiCard.vue";
+import UiForm from "@/components/ui/UiForm.vue";
 
 export default defineComponent({
   name: "MainPage",
-  components: { UiCard },
+  components: { UiCard, UiForm },
   data() {
     return {
       titleFirst: "Name:",
       titleSecond: "Link:",
       imgAlt: "pokemon",
+      buttonName: "Create",
     };
   },
   computed: {
     ...mapState("pokemons", ["pokemons"]),
   },
   methods: {
-    ...mapActions("pokemons", ["fetchPokemons"]),
+    ...mapActions("pokemons", ["fetchPokemons", "addPokemon"]),
+    create(name) {
+      let pokemon = {
+        id: Date.now(),
+        name: name.toLowerCase(),
+      };
+      this.addPokemon(pokemon);
+    },
   },
   mounted() {
     this.fetchPokemons();
@@ -61,7 +71,7 @@ export default defineComponent({
   letter-spacing: 2px;
 }
 .main-page__content {
-  border: 5px solid var(--navy-color);
+  border: 3px solid var(--navy-color);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-column-gap: 30px;
