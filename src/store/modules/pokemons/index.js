@@ -4,11 +4,6 @@ export default {
   state: {
     pokemons: [],
   },
-  getters: {
-    getPokemons(state) {
-      return state.pokemons;
-    },
-  },
   mutations: {
     setPokemons(state, payload) {
       state.pokemons = payload;
