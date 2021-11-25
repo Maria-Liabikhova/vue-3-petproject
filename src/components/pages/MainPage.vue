@@ -1,6 +1,11 @@
 <template>
   <div class="main-page">
     <h1 class="main-page__h1">Hello world!</h1>
+    <input
+      class="main-page__search"
+      v-model="searchQuery"
+      placeholder="Search..."
+    />
     <div class="main-page__section">
       <div class="main-page__create">
         <div class="main-page__choisewrap">
@@ -30,7 +35,7 @@
     <div class="main-page__content">
       <div
         class="main-page__cardwrapper"
-        v-for="pokemon in pokemonsList"
+        v-for="pokemon in filteredPokemonsList"
         :key="pokemon.id"
       >
         <UiCard
@@ -73,6 +78,7 @@ export default defineComponent({
       sortOptions: [{ name: "name", title: "Sort by name" }],
       sortTitle: "Choose sort creteria",
       selectedSort: "",
+      searchQuery: "",
     };
   },
   computed: {
@@ -83,6 +89,11 @@ export default defineComponent({
           p1[this.selectedSort].localeCompare(p2[this.selectedSort])
         );
       } else return this.pokemons;
+    },
+    filteredPokemonsList() {
+      return this.pokemonsList.filter((pokemon) =>
+        pokemon.name.includes(this.searchQuery.toLowerCase())
+      );
     },
   },
   methods: {
@@ -152,6 +163,13 @@ export default defineComponent({
 .main-page__choisewrap {
   margin-bottom: 30px;
 }
+.main-page__search {
+  height: var(--input-height);
+  color: var(--green-color);
+  border: 2px solid var(--black-color);
+  outline: none;
+  margin-bottom: 30px;
+}
 @media (max-width: 1279px) {
   .main-page__content {
     grid-template-columns: 1fr 1fr 1fr;
@@ -167,6 +185,9 @@ export default defineComponent({
   .main-page__create {
     margin-right: 0px;
     margin-bottom: 20px;
+  }
+  .main-page__select {
+    border: none;
   }
 }
 @media (max-width: 479px) {
