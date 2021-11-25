@@ -5,4 +5,9 @@ import "@/css/styles.css";
 import router from "./router";
 import store from "./store";
 
-createApp(App).use(store).use(router).mount("#app");
+import components from "@/components/ui/index.js";
+const app = createApp(App);
+components.forEach((component) => {
+  app.component(component.name, component);
+});
+app.use(store).use(router).mount("#app");

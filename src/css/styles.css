@@ -8,3 +8,11 @@ body {
   font-family: var(--main-font);
   font-style: 16px;
 }
+
+.text--green {
+  color: var(--green-color);
+  font-weight: bold;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}

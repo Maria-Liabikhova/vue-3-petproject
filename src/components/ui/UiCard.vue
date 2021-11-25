@@ -9,7 +9,7 @@
     <p class="card__text">{{ text }}</p>
     <div>
       <h2 class="card__title">{{ titleSecond }}</h2>
-      <a :href="link" class="card__link">{{ linkName }}</a>
+      <a :href="link" class="text--green">{{ linkName }}</a>
     </div>
   </div>
 </template>
@@ -86,14 +86,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: flex-end;
 }
-.card__link {
-  color: var(--green-color);
-  font-weight: bold;
-  text-decoration: none;
-  opacity: 0.6;
-  transition: all 0.3s ease;
-}
-.card__link:hover {
+.text--green:hover {
   transition: all 0.3s ease;
   opacity: 1;
 }

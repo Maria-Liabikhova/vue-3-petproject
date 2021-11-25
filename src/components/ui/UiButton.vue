@@ -18,7 +18,7 @@ export default defineComponent({
 
 <style scoped>
 .btn {
-  height: 32px;
+  height: var(--input-height);
   width: 102px;
   text-transform: uppercase;
   font-weight: bold;

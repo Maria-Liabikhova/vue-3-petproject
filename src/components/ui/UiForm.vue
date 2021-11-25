@@ -1,21 +1,23 @@
 <template>
   <form class="form" @submit.prevent>
     <div>
-      <input class="form__input" v-model="value" />
+      <input class="form__input" v-model.trim="value" />
     </div>
-    <UiButton :button-name="buttonName" @click="$emit('onCreate', value)" />
+    <UiButton :button-name="buttonName" @click="onApply" />
   </form>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import UiButton from "@/components/ui/UiButton.vue";
 
 export default defineComponent({
   name: "UiForm",
-  components: { UiButton },
   props: {
     buttonName: {
+      type: String,
+      required: true,
+    },
+    chosenValue: {
       type: String,
       required: true,
     },
@@ -23,22 +25,33 @@ export default defineComponent({
   data() {
     return {
       value: "",
-      // secondValue: "",
     };
+  },
+  methods: {
+    onApply() {
+      this.$emit("onCreate", this.value), (this.value = "");
+    },
+  },
+  watch: {
+    chosenValue() {
+      this.value = this.chosenValue;
+    },
   },
 });
 </script>
 
 <style scoped>
 .form {
-  margin-bottom: 45px;
   display: grid;
   grid-column-gap: 30px;
-  grid-template-columns: 30% calc(70% - 30px);
+  grid-template-columns: 30% 70%;
 }
 .form__input {
+  box-sizing: border-box;
+  padding: 7px;
+  padding-left: 20px;
   margin-bottom: 10px;
-  height: 25px;
+  height: var(--input-height);
   width: 100%;
   display: block;
   border: 1px solid var(--green-color);

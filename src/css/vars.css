@@ -6,6 +6,8 @@
 
   --main-font:  Avenir, Helvetica, Arial, sans-serif;
 
+  --input-height: 42px;
+
   /* brakepoints */
   --sm: 480px;
   --md: 992px;

@@ -1,11 +1,36 @@
 <template>
   <div class="main-page">
     <h1 class="main-page__h1">Hello world!</h1>
-    <UiForm :button-name="buttonName" @onCreate="create" />
+    <div class="main-page__section">
+      <div class="main-page__create">
+        <div class="main-page__choisewrap">
+          <span class="text--green"> You can add one of this guys: </span>
+          <span
+            class="text--green main-page__p"
+            v-for="extraPokemon in extraPokemons"
+            :key="extraPokemon.name"
+            @click="chosenValue = extraPokemon.name"
+          >
+            &nbsp;{{ extraPokemon.name }}
+          </span>
+        </div>
+        <UiForm
+          :button-name="buttonName"
+          @onCreate="create"
+          :chosenValue="chosenValue"
+        />
+      </div>
+      <UiSelect
+        v-model="selectedSort"
+        class="main-page__select"
+        :options="sortOptions"
+        :title="sortTitle"
+      />
+    </div>
     <div class="main-page__content">
       <div
         class="main-page__cardwrapper"
-        v-for="pokemon in pokemons"
+        v-for="pokemon in pokemonsList"
         :key="pokemon.id"
       >
         <UiCard
@@ -13,9 +38,11 @@
           :titleSecond="titleSecond"
           :text="pokemon.name.toUpperCase()"
           :imgSrc="`https://img.pokemondb.net/artwork/${pokemon.name}.jpg`"
-          :link="`https://www.pokemon.com/us/pokedex//${pokemon.name}`"
+          :link="`https://www.pokemon.com/us/pokedex/${pokemon.name}`"
           :imgAlt="imgAlt"
-          :linkName="pokemon.name + ' ' + 'invite you to it`s page'"
+          :linkName="
+            pokemon.name.toUpperCase() + ' ' + 'invite you to it`s page'
+          "
         />
       </div>
     </div>
@@ -25,22 +52,38 @@
 <script>
 import { defineComponent } from "vue";
 import { mapActions, mapState } from "vuex";
-import UiCard from "@/components/ui/UiCard.vue";
-import UiForm from "@/components/ui/UiForm.vue";
 
 export default defineComponent({
   name: "MainPage",
-  components: { UiCard, UiForm },
   data() {
     return {
       titleFirst: "Name:",
       titleSecond: "Link:",
       imgAlt: "pokemon",
       buttonName: "Create",
+      extraPokemons: [
+        { name: "Ndoria" },
+        { name: "Nidoran-f" },
+        { name: "Sandslash" },
+        { name: "Sandshrew" },
+        { name: "Raichu" },
+        { name: "Pikachu" },
+      ],
+      chosenValue: "",
+      sortOptions: [{ name: "name", title: "Sort by name" }],
+      sortTitle: "Choose sort creteria",
+      selectedSort: "",
     };
   },
   computed: {
     ...mapState("pokemons", ["pokemons"]),
+    pokemonsList() {
+      if (this.selectedSort) {
+        return [...this.pokemons].sort((p1, p2) =>
+          p1[this.selectedSort].localeCompare(p2[this.selectedSort])
+        );
+      } else return this.pokemons;
+    },
   },
   methods: {
     ...mapActions("pokemons", ["fetchPokemons", "addPokemon"]),
@@ -70,6 +113,19 @@ export default defineComponent({
   font-size: 50px;
   letter-spacing: 2px;
 }
+.main-page__section {
+  margin-bottom: 45px;
+  display: flex;
+}
+.main-page__create {
+  margin-right: 50px;
+  border: 1px solid var(--navy-color);
+  padding: 10px;
+}
+.main-page__select {
+  border: 1px solid var(--navy-color);
+  padding: 10px;
+}
 .main-page__content {
   border: 3px solid var(--navy-color);
   display: grid;
@@ -83,6 +139,19 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
 }
+.main-page__p {
+  color: var(--green-color);
+  opacity: 0.6;
+}
+.main-page__p:hover {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: var(--green-color);
+  opacity: 1;
+}
+.main-page__choisewrap {
+  margin-bottom: 30px;
+}
 @media (max-width: 1279px) {
   .main-page__content {
     grid-template-columns: 1fr 1fr 1fr;
@@ -91,6 +160,13 @@ export default defineComponent({
 @media (max-width: 991px) {
   .main-page__content {
     grid-template-columns: 1fr 1fr;
+  }
+  .main-page__section {
+    display: block;
+  }
+  .main-page__create {
+    margin-right: 0px;
+    margin-bottom: 20px;
   }
 }
 @media (max-width: 479px) {
