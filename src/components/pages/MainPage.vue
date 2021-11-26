@@ -51,12 +51,17 @@
         />
       </div>
     </div>
+    <UiPagination
+      :page="currentPage"
+      :totalPages="totalPages"
+      @updatePage="updatePage"
+    />
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default defineComponent({
   name: "MainPage",
@@ -82,7 +87,7 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapState("pokemons", ["pokemons"]),
+    ...mapState("pokemons", ["pokemons", "currentPage", "totalPages"]),
     pokemonsList() {
       if (this.selectedSort) {
         return [...this.pokemons].sort((p1, p2) =>
@@ -98,12 +103,17 @@ export default defineComponent({
   },
   methods: {
     ...mapActions("pokemons", ["fetchPokemons", "addPokemon"]),
+    ...mapMutations("pokemons", ["setCurrentPage"]),
     create(name) {
       let pokemon = {
         id: Date.now(),
         name: name.toLowerCase(),
       };
       this.addPokemon(pokemon);
+    },
+    updatePage(payload) {
+      this.setCurrentPage(payload);
+      this.fetchPokemons();
     },
   },
   mounted() {
@@ -145,6 +155,7 @@ export default defineComponent({
   grid-row-gap: 30px;
   padding-top: 30px;
   padding-bottom: 30px;
+  margin-bottom: 20px;
 }
 .main-page__cardwrapper {
   margin-left: auto;
