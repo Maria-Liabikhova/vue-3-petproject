@@ -11,7 +11,7 @@ export default {
         {
           params: {
             limit: limit,
-            offset: limit * currentPage,
+            offset: limit * (currentPage - 1),
           },
         }
       );

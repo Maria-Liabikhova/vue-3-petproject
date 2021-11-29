@@ -1,10 +1,10 @@
-import apiFetchPokemons from "@/api/pokemons";
+import apiPokemons from "@/api/pokemons";
 export default {
   namespaced: true,
   state: {
     pokemons: [],
     limit: 20,
-    currentPage: 0,
+    currentPage: 1,
     totalCount: 0,
     totalPages: 0,
   },
@@ -27,7 +27,7 @@ export default {
   },
   actions: {
     async fetchPokemons({ commit }) {
-      const res = await apiFetchPokemons.apiFetchPokemons();
+      const res = await apiPokemons.apiFetchPokemons();
       commit("setPokemons", res.results);
       commit("setTotalCount", res.count);
     },

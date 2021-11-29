@@ -9,7 +9,7 @@
     <p class="card__text">{{ text }}</p>
     <div>
       <h2 class="card__title">{{ titleSecond }}</h2>
-      <a :href="link" class="text--green">{{ linkName }}</a>
+      <router-link :to="link" class="text--green">{{ linkName }}</router-link>
     </div>
   </div>
 </template>

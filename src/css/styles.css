@@ -2,8 +2,8 @@
 
 body {
   box-sizing: border-box;
-  padding: 30px;
   margin: 0;
+  padding: 0;
   color: var(--black-color);
   font-family: var(--main-font);
   font-style: 16px;

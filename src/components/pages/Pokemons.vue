@@ -1,17 +1,17 @@
 <template>
-  <div class="main-page">
-    <h1 class="main-page__h1">Hello world!</h1>
+  <div class="pokemons">
     <input
-      class="main-page__search"
+      v-focus
+      class="pokemons__search"
       v-model="searchQuery"
       placeholder="Search..."
     />
-    <div class="main-page__section">
-      <div class="main-page__create">
-        <div class="main-page__choisewrap">
+    <div class="pokemons__section">
+      <div class="pokemons__create">
+        <div class="pokemons__choisewrap">
           <span class="text--green"> You can add one of this guys: </span>
           <span
-            class="text--green main-page__p"
+            class="text--green pokemons__p"
             v-for="extraPokemon in extraPokemons"
             :key="extraPokemon.name"
             @click="chosenValue = extraPokemon.name"
@@ -27,16 +27,17 @@
       </div>
       <UiSelect
         v-model="selectedSort"
-        class="main-page__select"
+        class="pokemons__select"
         :options="sortOptions"
         :title="sortTitle"
       />
     </div>
-    <div class="main-page__content">
+    <div class="pokemons__content">
       <div
-        class="main-page__cardwrapper"
+        class="pokemons__cardwrapper"
         v-for="pokemon in filteredPokemonsList"
         :key="pokemon.id"
+        @click="$router.push(`/pokemon-${pokemon.name}`)"
       >
         <UiCard
           :titleFirst="titleFirst"
@@ -64,7 +65,7 @@ import { defineComponent } from "vue";
 import { mapActions, mapMutations, mapState } from "vuex";
 
 export default defineComponent({
-  name: "MainPage",
+  name: "Pokemons",
   data() {
     return {
       titleFirst: "Name:",
@@ -123,31 +124,26 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.main-page {
+.pokemons {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  padding: 30px;
 }
-.main-page__h1 {
-  color: var(--green-color);
-  font-family: var(--main-font);
-  font-size: 50px;
-  letter-spacing: 2px;
-}
-.main-page__section {
+.pokemons__section {
   margin-bottom: 45px;
   display: flex;
 }
-.main-page__create {
+.pokemons__create {
   margin-right: 50px;
   border: 1px solid var(--navy-color);
   padding: 10px;
 }
-.main-page__select {
+.pokemons__select {
   border: 1px solid var(--navy-color);
   padding: 10px;
 }
-.main-page__content {
+.pokemons__content {
   border: 3px solid var(--navy-color);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -157,24 +153,24 @@ export default defineComponent({
   padding-bottom: 30px;
   margin-bottom: 20px;
 }
-.main-page__cardwrapper {
+.pokemons__cardwrapper {
   margin-left: auto;
   margin-right: auto;
 }
-.main-page__p {
+.pokemons__p {
   color: var(--green-color);
   opacity: 0.6;
 }
-.main-page__p:hover {
+.pokemons__p:hover {
   transition: all 0.3s ease;
   cursor: pointer;
   color: var(--green-color);
   opacity: 1;
 }
-.main-page__choisewrap {
+.pokemons__choisewrap {
   margin-bottom: 30px;
 }
-.main-page__search {
+.pokemons__search {
   height: var(--input-height);
   color: var(--green-color);
   border: 2px solid var(--black-color);
@@ -182,27 +178,27 @@ export default defineComponent({
   margin-bottom: 30px;
 }
 @media (max-width: 1279px) {
-  .main-page__content {
+  .pokemons__content {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
 @media (max-width: 991px) {
-  .main-page__content {
+  .pokemons__content {
     grid-template-columns: 1fr 1fr;
   }
-  .main-page__section {
+  .pokemons__section {
     display: block;
   }
-  .main-page__create {
+  .pokemons__create {
     margin-right: 0px;
     margin-bottom: 20px;
   }
-  .main-page__select {
+  .pokemons__select {
     border: none;
   }
 }
 @media (max-width: 479px) {
-  .main-page__content {
+  .pokemons__content {
     grid-template-columns: 1fr;
   }
 }
