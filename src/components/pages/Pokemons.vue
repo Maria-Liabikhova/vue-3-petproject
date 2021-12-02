@@ -37,14 +37,13 @@
         class="pokemons__cardwrapper"
         v-for="pokemon in filteredPokemonsList"
         :key="pokemon.id"
-        @click="$router.push(`/pokemon-${pokemon.name}`)"
       >
         <UiCard
           :titleFirst="titleFirst"
           :titleSecond="titleSecond"
           :text="pokemon.name.toUpperCase()"
           :imgSrc="`https://img.pokemondb.net/artwork/${pokemon.name}.jpg`"
-          :link="`https://www.pokemon.com/us/pokedex/${pokemon.name}`"
+          :link="`/pokemon-${pokemon.name}`"
           :imgAlt="imgAlt"
           :linkName="
             pokemon.name.toUpperCase() + ' ' + 'invite you to it`s page'

@@ -13,19 +13,19 @@
         </p>
       </div>
       <div
-        v-if="notLastPage"
+        v-if="currentPage < totalPages"
         v-intersection="onIntersection"
         class="posts__loader"
       ></div>
-      <Loading v-if="notLastPage" />
+      <Loading v-if="currentPage < totalPages" />
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { mapActions, mapMutations, mapState } from "vuex";
 import Loading from "@/components/common/Loading.vue";
+import { fetchPosts } from "@/hooks/fetchPosts";
 
 export default defineComponent({
   name: "Posts",
@@ -35,21 +35,26 @@ export default defineComponent({
       loader: false,
     };
   },
-  computed: {
-    ...mapState("posts", ["currentPagePosts", "currentPage", "totalPages"]),
-    notLastPage() {
-      return this.currentPage < this.totalPages;
-    },
-  },
-  methods: {
-    ...mapActions("posts", ["fetchPosts"]),
-    ...mapMutations("posts", ["setCurrentPage"]),
-    onIntersection() {
-      this.setCurrentPage(), this.fetchPosts();
-    },
-  },
-  mounted() {
-    this.fetchPosts();
+  setup() {
+    const {
+      fetch,
+      posts,
+      onIntersection,
+      postsLimit,
+      currentPage,
+      totalPages,
+      currentPagePosts,
+    } = fetchPosts();
+
+    return {
+      fetch,
+      posts,
+      onIntersection,
+      postsLimit,
+      currentPage,
+      totalPages,
+      currentPagePosts,
+    };
   },
 });
 </script>

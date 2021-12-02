@@ -15,9 +15,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Pokemon",
-  mounted() {
-    console.log("hhh", this.$route.params.name);
-  },
 });
 </script>
 <style scoped>
